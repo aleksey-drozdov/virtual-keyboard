@@ -36,7 +36,7 @@ function renderKeys(keys, keysCode) {
         if (keys[i] === 'Backspace' || keys[i] === 'CapsLock' || keys[i] === 'Enter' || keys[i] === 'ArrowUp' || keys[i] === 'Control' || keys[i] === 'Alt' || keys[i] === 'ArrowLeft' || keys[i] === 'ArrowDown' || keys[i] === 'ArrowRight' || keys[i] === 'Tab') {
             out += `<div class="key key-btn ${keysCode[i]}" data-key="${keys[i]}">${keys[i]}</div>`;
         } else {
-            out += `<div class="key ${keysCode[i]}" data-key="${keys[i]}">${keys[i]}</div>`;
+            out += `<div class="key key-letr ${keysCode[i]}" data-key="${keys[i]}">${keys[i]}</div>`;
         }
     }
     document.querySelector('.keyboard').innerHTML = out;
@@ -53,7 +53,7 @@ document.addEventListener('keydown', function (event) {
         document.querySelector('textarea').focus()
     }
     //вводим в инпут только буквы
-    if (!document.querySelector(`.${event.code}`).classList.contains('key-btn') && event.key !== 'Shift') {
+    if (!document.querySelector(`.${event.code}`).classList.contains('key-btn') && event.key !== 'Shift' && !event.ctrlKey) {
         document.querySelector('textarea').value += document.querySelector(`.${event.code}`).dataset.key;
     }
     //меняем размер шрифта на капс
@@ -78,7 +78,6 @@ document.addEventListener('keydown', function (event) {
         }
         renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
-    //меняем размер на шифт
 
     //меняем язык
     if (event.key === 'Alt' && event.ctrlKey) {
