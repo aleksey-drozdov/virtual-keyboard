@@ -50,8 +50,6 @@ var cursorPosition = 0
 document.addEventListener('keydown', function (event) {
     document.querySelector('textarea').focus()
     lastLetter = document.querySelector(`.${event.code}`).dataset.key
-    //добавляем анимацию нажатия
-    document.querySelector(`.${event.code}`).classList.add('key-active');
 
     //меняем размер шрифта на капс
     if (event.key === 'CapsLock' || event.key === 'Shift') {
@@ -75,7 +73,8 @@ document.addEventListener('keydown', function (event) {
         }
         renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
-    //меняем язык
+
+    // меняем язык
     if (event.key === 'Alt' && event.ctrlKey) {
         switch (localStorage.lang) {
             case 'RU_LOW_BTNS':
@@ -95,6 +94,9 @@ document.addEventListener('keydown', function (event) {
         }
         renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
+    //добавляем анимацию нажатия
+    document.querySelector(`.${event.code}`).classList.add('key-active');
+
 })
 
 
