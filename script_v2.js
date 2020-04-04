@@ -43,10 +43,8 @@ function renderKeys(keys, keysCode) {
 
 init();
 
-var letters = document.querySelectorAll('.key-letr')
-var lastLetter = ''
-var cursorPosition = 0
-
+let letters = document.querySelectorAll('.key-letr')
+let lastLetter = ''
 document.addEventListener('keydown', function (event) {
     document.querySelector('textarea').focus()
     lastLetter = document.querySelector(`.${event.code}`).dataset.key
@@ -128,23 +126,57 @@ document.addEventListener('keyup', function (event) {
 
 document.querySelector('textarea').addEventListener('input', function (event) {
     //запоминаем позицию курсора после последнего ввода
-    cursorPosition = this.selectionStart
-    var strBeforeCursor = this.value.substring(0, cursorPosition)
-    var strAfterCursor = this.value.substring(cursorPosition)
-    console.log(this.value)
-    console.log(cursorPosition)
-    console.log(strBeforeCursor)
-    console.log(strAfterCursor)
+    let cursorPosition = this.selectionStart
+    let strBeforeCursor = this.value.substring(0, cursorPosition)
+    let strAfterCursor = this.value.substring(cursorPosition)
     if (event.inputType === 'insertText') {
         strBeforeCursor = strBeforeCursor.substring(0, strBeforeCursor.length - 1) + lastLetter
         this.value = strBeforeCursor + strAfterCursor
         this.selectionStart = cursorPosition
         this.selectionEnd = cursorPosition
     }
-    //подменяем введеный символ на тот, который на виртуальной клавиатуре
-    // if (event.inputType === 'insertText') {
-    //     if (event.data != lastLetter) {
-    //         this.value = this.value.substring(0, this.value.length - 1) + lastLetter
-    //     }
-    // }
+})
+
+//обработка клика по клаве
+document.querySelector('.keyboard').addEventListener('mousedown', function (event) {
+    //анимация
+    if (event.target.classList.contains('key')) {
+        event.target.classList.add('key-active')
+    }
+    //определяем положение курсора в строке и разбиваем её по нему.
+    var input = document.querySelector('textarea')
+    let cursorPosition = input.selectionStart;
+    let strBeforeCursor = input.value.substring(0, cursorPosition)
+    let strAfterCursor = input.value.substring(cursorPosition)
+
+    //проверяем вводился ли текст
+    if (event.target.classList.contains('key-letr') && !event.target.classList.contains('ShiftLeft') && !event.target.classList.contains('ShiftRight')) {
+        strBeforeCursor += event.target.dataset.key
+        input.value = strBeforeCursor + strAfterCursor
+        input.selectionStart = cursorPosition + 1
+    }
+    console.log(input.selectionStart)
+    //нажатие на стрелку влево
+    if (event.target.classList.contains('ArrowLeft')) {
+        if (input.selectionStart != 0) {
+            input.selectionStart -= 1
+            input.selectionEnd -= 1
+        }
+    }
+    //нажатие на стрелку вправо
+    if (event.target.classList.contains('ArrowRight')) {
+        if (input.selectionStart != input.value.length) {
+            input.selectionStart += 1
+            input.selectionEnd += 1
+        }
+    }
+
+    console.log(input.selectionStart)
+})
+//обработка отпускания клика по клаве
+document.querySelector('.keyboard').addEventListener('mouseup', function (event) {
+    //анимация
+    if (event.target.classList.contains('key')) {
+        event.target.classList.remove('key-active')
+    }
 })
