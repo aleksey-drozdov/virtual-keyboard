@@ -53,6 +53,7 @@ document.addEventListener('keydown', function (event) {
         event.preventDefault();
         return
     }
+    //вешаем фокут на форму
     document.querySelector('textarea').focus()
     lastLetter = document.querySelector(`.${event.code}`).dataset.key
 
@@ -151,9 +152,25 @@ document.querySelector('textarea').addEventListener('input', function (event) {
 
 //обработка клика по клаве
 document.querySelector('.keyboard').addEventListener('mousedown', function (event) {
-    //анимация
-    if (event.target.classList.contains('key')) {
-        event.target.classList.add('key-active')
+    //нажатие на шифт
+    if (event.target.classList.contains('CapsLock') || event.target.dataset.key == 'Shift') {
+        switch (localStorage.lang) {
+            case 'RU_LOW_BTNS':
+                localStorage.lang = 'RU_SHIFT_BTNS'
+                break;
+            case 'RU_SHIFT_BTNS':
+                localStorage.lang = 'RU_LOW_BTNS'
+                break;
+            case 'ENG_LOW_BTNS':
+                localStorage.lang = 'ENG_SHIFT_BTNS'
+                break;
+            case 'ENG_SHIFT_BTNS':
+                localStorage.lang = 'ENG_LOW_BTNS'
+                break;
+            default:
+                break;
+        }
+        renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
     //определяем положение курсора в строке и разбиваем её по нему.
     var input = document.querySelector('textarea')
@@ -182,11 +199,36 @@ document.querySelector('.keyboard').addEventListener('mousedown', function (even
             input.selectionEnd += 1
         }
     }
+    //анимация
+    if (event.target.classList.contains('key')) {
+        event.target.classList.add('key-active')
+    }
 
     console.log(input.selectionStart)
 })
 //обработка отпускания клика по клаве
 document.querySelector('.keyboard').addEventListener('mouseup', function (event) {
+    //отпускание шифта
+    if (event.target.dataset.key == 'Shift') {
+        switch (localStorage.lang) {
+            case 'RU_LOW_BTNS':
+                localStorage.lang = 'RU_SHIFT_BTNS'
+                break;
+            case 'RU_SHIFT_BTNS':
+                localStorage.lang = 'RU_LOW_BTNS'
+                break;
+            case 'ENG_LOW_BTNS':
+                localStorage.lang = 'ENG_SHIFT_BTNS'
+                break;
+            case 'ENG_SHIFT_BTNS':
+                localStorage.lang = 'ENG_LOW_BTNS'
+                break;
+            default:
+                break;
+        }
+        renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+    }
+
     //анимация
     if (event.target.classList.contains('key')) {
         event.target.classList.remove('key-active')
