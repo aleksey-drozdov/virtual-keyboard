@@ -21,7 +21,7 @@ const LANGS = {
 };
 
 function init() {
-    document.body.innerHTML = '<textarea></textarea><div class="keyboard"></div>';
+    document.body.innerHTML = '<textarea autofocus></textarea><div class="keyboard"></div>';
     if (localStorage.getItem('lang') === null) {
         localStorage.setItem('lang', 'RU_LOW_BTNS');
     }
@@ -136,7 +136,9 @@ document.addEventListener('keyup', function (event) {
     document.querySelector(`.${event.code}`).classList.remove('key-active')
 })
 
-
+document.querySelector('textarea').addEventListener('blur', function (event) {
+    this.focus()
+})
 document.querySelector('textarea').addEventListener('input', function (event) {
     //запоминаем позицию курсора после последнего ввода
     let cursorPosition = this.selectionStart
@@ -183,6 +185,7 @@ document.querySelector('.keyboard').addEventListener('mousedown', function (even
         strBeforeCursor += event.target.dataset.key
         input.value = strBeforeCursor + strAfterCursor
         input.selectionStart = cursorPosition + 1
+        input.selectionEnd = cursorPosition + 1
     }
     console.log(input.selectionStart)
     //нажатие на стрелку влево
