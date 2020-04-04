@@ -45,28 +45,104 @@ init();
 
 var letters = document.querySelectorAll('.key-letr')
 var lastLetter = ''
+var cursorPosition = 0
+
 document.addEventListener('keydown', function (event) {
     document.querySelector('textarea').focus()
     lastLetter = document.querySelector(`.${event.code}`).dataset.key
     //добавляем анимацию нажатия
     document.querySelector(`.${event.code}`).classList.add('key-active');
+
+    //меняем размер шрифта на капс
+    if (event.key === 'CapsLock' || event.key === 'Shift') {
+        if (!event.repeat) {
+            switch (localStorage.lang) {
+                case 'RU_LOW_BTNS':
+                    localStorage.lang = 'RU_SHIFT_BTNS'
+                    break;
+                case 'RU_SHIFT_BTNS':
+                    localStorage.lang = 'RU_LOW_BTNS'
+                    break;
+                case 'ENG_LOW_BTNS':
+                    localStorage.lang = 'ENG_SHIFT_BTNS'
+                    break;
+                case 'ENG_SHIFT_BTNS':
+                    localStorage.lang = 'ENG_LOW_BTNS'
+                    break;
+                default:
+                    break;
+            }
+        }
+        renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+    }
+    //меняем язык
+    if (event.key === 'Alt' && event.ctrlKey) {
+        switch (localStorage.lang) {
+            case 'RU_LOW_BTNS':
+                localStorage.lang = 'ENG_LOW_BTNS'
+                break;
+            case 'RU_SHIFT_BTNS':
+                localStorage.lang = 'ENG_SHIFT_BTNS'
+                break;
+            case 'ENG_LOW_BTNS':
+                localStorage.lang = 'RU_LOW_BTNS'
+                break;
+            case 'ENG_SHIFT_BTNS':
+                localStorage.lang = 'RU_SHIFT_BTNS'
+                break;
+            default:
+                break;
+        }
+        renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+    }
 })
 
 
 document.addEventListener('keyup', function (event) {
+    //отпускание шифта
+    if (event.key === 'Shift') {
+        switch (localStorage.lang) {
+            case 'RU_LOW_BTNS':
+                localStorage.lang = 'RU_SHIFT_BTNS'
+                break;
+            case 'RU_SHIFT_BTNS':
+                localStorage.lang = 'RU_LOW_BTNS'
+                break;
+            case 'ENG_LOW_BTNS':
+                localStorage.lang = 'ENG_SHIFT_BTNS'
+                break;
+            case 'ENG_SHIFT_BTNS':
+                localStorage.lang = 'ENG_LOW_BTNS'
+                break;
+            default:
+                break;
+        }
+        renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+    }
     //анимация
     document.querySelector(`.${event.code}`).classList.remove('key-active')
 })
 
 
 document.querySelector('textarea').addEventListener('input', function (event) {
-    var strLength = this.value.length
+    //запоминаем позицию курсора после последнего ввода
+    cursorPosition = this.selectionStart
+    var strBeforeCursor = this.value.substring(0, cursorPosition)
+    var strAfterCursor = this.value.substring(cursorPosition)
+    console.log(this.value)
+    console.log(cursorPosition)
+    console.log(strBeforeCursor)
+    console.log(strAfterCursor)
     if (event.inputType === 'insertText') {
-        if (event.data == lastLetter) {
-        } else {
-            this.value = this.value.substring(0, this.value.length - 1) + lastLetter
-        }
+        strBeforeCursor = strBeforeCursor.substring(0, strBeforeCursor.length - 1) + lastLetter
+        this.value = strBeforeCursor + strAfterCursor
+        this.selectionStart = cursorPosition
+        this.selectionEnd = cursorPosition
     }
-    console.log(strLength)
-    console.log(this)
+    //подменяем введеный символ на тот, который на виртуальной клавиатуре
+    // if (event.inputType === 'insertText') {
+    //     if (event.data != lastLetter) {
+    //         this.value = this.value.substring(0, this.value.length - 1) + lastLetter
+    //     }
+    // }
 })
