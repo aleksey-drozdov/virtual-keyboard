@@ -45,7 +45,14 @@ init();
 
 let letters = document.querySelectorAll('.key-letr')
 let lastLetter = ''
+
+//нажатие клавиши
 document.addEventListener('keydown', function (event) {
+    //убираем события от кнопок, которых нет на виртуальной клавиатуре 
+    if (!document.querySelector(`.${event.code}`)) {
+        event.preventDefault();
+        return
+    }
     document.querySelector('textarea').focus()
     lastLetter = document.querySelector(`.${event.code}`).dataset.key
 
@@ -97,8 +104,13 @@ document.addEventListener('keydown', function (event) {
 
 })
 
-
+//отпускание клавиши 
 document.addEventListener('keyup', function (event) {
+    //убираем события от кнопок, которых нет на виртуальной клавиатуре 
+    if (!document.querySelector(`.${event.code}`)) {
+        event.preventDefault();
+        return
+    }
     //отпускание шифта
     if (event.key === 'Shift') {
         switch (localStorage.lang) {
