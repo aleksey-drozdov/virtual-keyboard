@@ -21,7 +21,7 @@ const LANGS = {
 };
 
 function init() {
-    document.body.innerHTML = '<textarea autofocus></textarea><div class="keyboard"></div>';
+    document.body.innerHTML = '<textarea autofocus cols="100" rows="10"></textarea><div class="keyboard"></div>';
     if (localStorage.getItem('lang') === null) {
         localStorage.setItem('lang', 'RU_LOW_BTNS');
     }
@@ -45,18 +45,27 @@ init();
 
 let letters = document.querySelectorAll('.key-letr')
 let lastLetter = ''
+var input = document.querySelector('textarea')
 
 //нажатие клавиши
 document.addEventListener('keydown', function (event) {
+    lastLetter = document.querySelector(`.${event.code}`).dataset.key
+
     //убираем события от кнопок, которых нет на виртуальной клавиатуре 
     if (!document.querySelector(`.${event.code}`)) {
         event.preventDefault();
         return
     }
-    //вешаем фокут на форму
-    document.querySelector('textarea').focus()
-    lastLetter = document.querySelector(`.${event.code}`).dataset.key
+    //таб
+    if (event.key === 'Tab') {
+        event.preventDefault()
+        let cursorPosition = input.selectionStart;
+        let strBeforeCursor = input.value.substring(0, cursorPosition)
+        let strAfterCursor = input.value.substring(cursorPosition)
+        strBeforeCursor += '\t'
+        input.value = strBeforeCursor + strAfterCursor
 
+    }
     //меняем размер шрифта на капс
     if (event.key === 'CapsLock' || event.key === 'Shift') {
         if (!event.repeat) {
@@ -76,6 +85,8 @@ document.addEventListener('keydown', function (event) {
                 default:
                     break;
             }
+        } else {
+            event.preventDefault()
         }
         renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
@@ -154,6 +165,14 @@ document.querySelector('textarea').addEventListener('input', function (event) {
 
 //обработка клика по клаве
 document.querySelector('.keyboard').addEventListener('mousedown', function (event) {
+    //анимация
+    event.target.classList.add('key-active')
+    //определяем положение курсора в строке и разбиваем её по нему.
+    let cursorPosition = input.selectionStart;
+    let strBeforeCursor = input.value.substring(0, cursorPosition)
+    let strAfterCursor = input.value.substring(cursorPosition)
+
+
     //нажатие на шифт
     if (event.target.classList.contains('CapsLock') || event.target.dataset.key == 'Shift') {
         switch (localStorage.lang) {
@@ -174,12 +193,6 @@ document.querySelector('.keyboard').addEventListener('mousedown', function (even
         }
         renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
     }
-    //определяем положение курсора в строке и разбиваем её по нему.
-    var input = document.querySelector('textarea')
-    let cursorPosition = input.selectionStart;
-    let strBeforeCursor = input.value.substring(0, cursorPosition)
-    let strAfterCursor = input.value.substring(cursorPosition)
-
     //проверяем вводился ли текст
     if (event.target.classList.contains('key-letr') && !event.target.classList.contains('ShiftLeft') && !event.target.classList.contains('ShiftRight')) {
         strBeforeCursor += event.target.dataset.key
@@ -187,7 +200,7 @@ document.querySelector('.keyboard').addEventListener('mousedown', function (even
         input.selectionStart = cursorPosition + 1
         input.selectionEnd = cursorPosition + 1
     }
-    console.log(input.selectionStart)
+
     //нажатие на стрелку влево
     if (event.target.classList.contains('ArrowLeft')) {
         if (input.selectionStart != 0) {
@@ -199,16 +212,52 @@ document.querySelector('.keyboard').addEventListener('mousedown', function (even
     if (event.target.classList.contains('ArrowRight')) {
         if (input.selectionStart != input.value.length) {
             input.selectionStart += 1
-            input.selectionEnd += 1
+            input.selectionEnd += 0
         }
     }
-    //анимация
-    if (event.target.classList.contains('key')) {
-        event.target.classList.add('key-active')
+    //стрелка вверх
+    if (event.target.classList.contains('ArrowUp')) {
+        if (input.selectionStart - input.cols < 0) {
+            input.selectionStart = 0
+            input.selectionEnd = 0
+        } else {
+            input.selectionStart -= input.cols
+            input.selectionEnd -= input.cols
+        }
+    }
+    //стрелка вниз 
+    if (event.target.classList.contains('ArrowDown')) {
+        if (input.selectionStart + input.cols > input.value.length) {
+            input.selectionStart = input.value.length
+            input.selectionEnd = input.value.length
+        } else {
+            input.selectionStart += input.cols
+            input.selectionEnd += input.cols
+        }
+    }
+    //энтер
+    if (event.target.classList.contains('Enter')) {
+        strBeforeCursor += '\n'
+        input.value = strBeforeCursor + strAfterCursor
+    }
+    //таб
+    if (event.target.classList.contains('Tab')) {
+        strBeforeCursor += '\t'
+        input.value = strBeforeCursor + strAfterCursor
+    }
+    //бекспейс
+    if (event.target.classList.contains('Backspace')) {
+        strBeforeCursor = input.value.substring(0, cursorPosition - 1)
+        input.value = strBeforeCursor + strAfterCursor
+        input.selectionStart -= 1
+        input.selectionEnd -= 1
+
     }
 
-    console.log(input.selectionStart)
+
 })
+
+
 //обработка отпускания клика по клаве
 document.querySelector('.keyboard').addEventListener('mouseup', function (event) {
     //отпускание шифта
@@ -233,7 +282,6 @@ document.querySelector('.keyboard').addEventListener('mouseup', function (event)
     }
 
     //анимация
-    if (event.target.classList.contains('key')) {
-        event.target.classList.remove('key-active')
-    }
+    event.target.classList.remove('key-active')
+
 })
