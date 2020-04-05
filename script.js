@@ -1,28 +1,13 @@
-
 const LANGS = {
-
 	RU_LOW_BTNS: ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter', 'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	RU_UP_BTNS: ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter', 'Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	RU_SHIFT_BTNS: ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter', 'Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	ENG_LOW_BTNS: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	ENG_UP_BTNS: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter', 'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	ENG_SHIFT_BTNS: ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter', 'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'ArrowUp', 'Shift', 'Control', 'Alt', ' ', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
-
 	KEY_CODE: ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'AltLeft', 'Space', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight'],
 };
-
-function init() {
-	document.body.innerHTML = '<div class="container"><p>Виртуальная клавиатура</p><textarea autofocus cols="100" rows="10"></textarea><div class="keyboard"></div><p>Клавиатура создана в операционной системе Windows</p><p>Для переключения языка комбинация: левыe ctrl + alt</p></div>';
-	if (localStorage.getItem('lang') === null) {
-		localStorage.setItem('lang', 'RU_LOW_BTNS');
-	}
-	renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
-}
+let lastLetter = '';
 
 function renderKeys(keys, keysCode) {
 	let out = '';
@@ -40,13 +25,16 @@ function renderKeys(keys, keysCode) {
 	document.querySelector('.ArrowDown').innerHTML = '🡻';
 }
 
+function init() {
+	document.body.innerHTML = '<div class="container"><p>Виртуальная клавиатура</p><textarea autofocus cols="100" rows="10"></textarea><div class="keyboard"></div><p>Клавиатура создана в операционной системе Windows</p><p>Для переключения языка комбинация: левыe ctrl + alt</p></div>';
+	if (localStorage.getItem('lang') === null) {
+		localStorage.setItem('lang', 'RU_LOW_BTNS');
+	}
+	renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
+}
 
 init();
-
-const letters = document.querySelectorAll('.key-letr');
-let lastLetter = '';
 const input = document.querySelector('textarea');
-
 // нажатие клавиши
 document.addEventListener('keydown', (event) => {
 	// убираем события от кнопок, которых нет на виртуальной клавиатуре
@@ -148,10 +136,11 @@ document.addEventListener('keyup', (event) => {
 	document.querySelector(`.${event.code}`).classList.remove('key-active');
 });
 
-document.querySelector('textarea').addEventListener('blur', function (event) {
+// eslint-disable-next-line no-unused-vars
+document.querySelector('textarea').addEventListener('blur', function inputFocus(event) {
 	this.focus();
 });
-document.querySelector('textarea').addEventListener('input', function (event) {
+document.querySelector('textarea').addEventListener('input', function addText(event) {
 	// запоминаем позицию курсора после последнего ввода
 	const cursorPosition = this.selectionStart;
 	let strBeforeCursor = this.value.substring(0, cursorPosition);
@@ -178,7 +167,7 @@ document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
 
 
 	// нажатие на шифт
-	if (event.target.classList.contains('CapsLock') || event.target.dataset.key == 'Shift') {
+	if (event.target.classList.contains('CapsLock') || event.target.dataset.key === 'Shift') {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
 				localStorage.lang = 'RU_SHIFT_BTNS';
@@ -207,14 +196,14 @@ document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
 
 	// нажатие на стрелку влево
 	if (event.target.classList.contains('ArrowLeft')) {
-		if (input.selectionStart != 0) {
+		if (input.selectionStart !== 0) {
 			input.selectionStart -= 1;
 			input.selectionEnd -= 1;
 		}
 	}
 	// нажатие на стрелку вправо
 	if (event.target.classList.contains('ArrowRight')) {
-		if (input.selectionStart != input.value.length) {
+		if (input.selectionStart !== input.value.length) {
 			input.selectionStart += 1;
 			input.selectionEnd += 0;
 		}
@@ -264,7 +253,7 @@ document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
 // обработка отпускания клика по клаве
 document.querySelector('.keyboard').addEventListener('mouseup', (event) => {
 	// отпускание шифта
-	if (event.target.dataset.key == 'Shift') {
+	if (event.target.dataset.key === 'Shift') {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
 				localStorage.lang = 'RU_SHIFT_BTNS';
@@ -288,7 +277,7 @@ document.querySelector('.keyboard').addEventListener('mouseup', (event) => {
 	event.target.classList.remove('key-active');
 });
 
-//убираем активный класс с кнопок, если уводим мышку 
+// убираем активный класс с кнопок, если уводим мышку
 document.querySelector('.keyboard').addEventListener('mouseout', (event) => {
-	event.target.classList.remove('key-active')
-})
+	event.target.classList.remove('key-active');
+});
