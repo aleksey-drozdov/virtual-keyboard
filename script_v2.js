@@ -34,264 +34,261 @@ function renderKeys(keys, keysCode) {
 		}
 	}
 	document.querySelector('.keyboard').innerHTML = out;
-	document.querySelector('.ArrowUp').innerHTML = "🡹";
-	document.querySelector('.ArrowLeft').innerHTML = "🡸";
-	document.querySelector('.ArrowRight').innerHTML = "🡺";
-	document.querySelector('.ArrowDown').innerHTML = "🡻";
-
+	document.querySelector('.ArrowUp').innerHTML = '🡹';
+	document.querySelector('.ArrowLeft').innerHTML = '🡸';
+	document.querySelector('.ArrowRight').innerHTML = '🡺';
+	document.querySelector('.ArrowDown').innerHTML = '🡻';
 }
 
 
 init();
 
-let letters = document.querySelectorAll('.key-letr')
-let lastLetter = ''
-var input = document.querySelector('textarea')
+const letters = document.querySelectorAll('.key-letr');
+let lastLetter = '';
+const input = document.querySelector('textarea');
 
-//нажатие клавиши
-document.addEventListener('keydown', function (event) {
-	//убираем события от кнопок, которых нет на виртуальной клавиатуре 
+// нажатие клавиши
+document.addEventListener('keydown', (event) => {
+	// убираем события от кнопок, которых нет на виртуальной клавиатуре
 	if (!document.querySelector(`.${event.code}`)) {
 		event.preventDefault();
-		return
+		return;
 	}
 
-	lastLetter = document.querySelector(`.${event.code}`).dataset.key
+	lastLetter = document.querySelector(`.${event.code}`).dataset.key;
 
-	//таб
+	// таб
 	if (event.key === 'Tab') {
-		event.preventDefault()
-		let cursorPosition = input.selectionStart;
-		let strBeforeCursor = input.value.substring(0, cursorPosition)
-		let strAfterCursor = input.value.substring(cursorPosition)
-		strBeforeCursor += '    '
-		input.value = strBeforeCursor + strAfterCursor
+		event.preventDefault();
+		const cursorPosition = input.selectionStart;
+		let strBeforeCursor = input.value.substring(0, cursorPosition);
+		const strAfterCursor = input.value.substring(cursorPosition);
+		strBeforeCursor += '    ';
+		input.value = strBeforeCursor + strAfterCursor;
 		input.selectionStart = cursorPosition + 4;
-		input.selectionEnd = cursorPosition + 4
-
+		input.selectionEnd = cursorPosition + 4;
 	}
-	//меняем размер шрифта на капс
+	// меняем размер шрифта на капс
 	if (event.key === 'CapsLock' || event.key === 'Shift') {
 		if (!event.repeat) {
 			switch (localStorage.lang) {
 				case 'RU_LOW_BTNS':
-					localStorage.lang = 'RU_SHIFT_BTNS'
+					localStorage.lang = 'RU_SHIFT_BTNS';
 					break;
 				case 'RU_SHIFT_BTNS':
-					localStorage.lang = 'RU_LOW_BTNS'
+					localStorage.lang = 'RU_LOW_BTNS';
 					break;
 				case 'ENG_LOW_BTNS':
-					localStorage.lang = 'ENG_SHIFT_BTNS'
+					localStorage.lang = 'ENG_SHIFT_BTNS';
 					break;
 				case 'ENG_SHIFT_BTNS':
-					localStorage.lang = 'ENG_LOW_BTNS'
+					localStorage.lang = 'ENG_LOW_BTNS';
 					break;
 				default:
 					break;
 			}
 		} else {
-			event.preventDefault()
+			event.preventDefault();
 		}
-		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
 	}
 
 	// меняем язык
 	if (event.key === 'Alt' && event.ctrlKey) {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
-				localStorage.lang = 'ENG_LOW_BTNS'
+				localStorage.lang = 'ENG_LOW_BTNS';
 				break;
 			case 'RU_SHIFT_BTNS':
-				localStorage.lang = 'ENG_SHIFT_BTNS'
+				localStorage.lang = 'ENG_SHIFT_BTNS';
 				break;
 			case 'ENG_LOW_BTNS':
-				localStorage.lang = 'RU_LOW_BTNS'
+				localStorage.lang = 'RU_LOW_BTNS';
 				break;
 			case 'ENG_SHIFT_BTNS':
-				localStorage.lang = 'RU_SHIFT_BTNS'
+				localStorage.lang = 'RU_SHIFT_BTNS';
 				break;
 			default:
 				break;
 		}
-		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
 	}
-	//добавляем анимацию нажатия
+	// добавляем анимацию нажатия
 	document.querySelector(`.${event.code}`).classList.add('key-active');
+});
 
-})
-
-//отпускание клавиши 
-document.addEventListener('keyup', function (event) {
-	//убираем события от кнопок, которых нет на виртуальной клавиатуре 
+// отпускание клавиши
+document.addEventListener('keyup', (event) => {
+	// убираем события от кнопок, которых нет на виртуальной клавиатуре
 	if (!document.querySelector(`.${event.code}`)) {
 		event.preventDefault();
-		return
+		return;
 	}
-	//отпускание шифта
+	// отпускание шифта
 	if (event.key === 'Shift') {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
-				localStorage.lang = 'RU_SHIFT_BTNS'
+				localStorage.lang = 'RU_SHIFT_BTNS';
 				break;
 			case 'RU_SHIFT_BTNS':
-				localStorage.lang = 'RU_LOW_BTNS'
+				localStorage.lang = 'RU_LOW_BTNS';
 				break;
 			case 'ENG_LOW_BTNS':
-				localStorage.lang = 'ENG_SHIFT_BTNS'
+				localStorage.lang = 'ENG_SHIFT_BTNS';
 				break;
 			case 'ENG_SHIFT_BTNS':
-				localStorage.lang = 'ENG_LOW_BTNS'
+				localStorage.lang = 'ENG_LOW_BTNS';
 				break;
 			default:
 				break;
 		}
-		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
 	}
-	//анимация
-	document.querySelector(`.${event.code}`).classList.remove('key-active')
-})
+	// анимация
+	document.querySelector(`.${event.code}`).classList.remove('key-active');
+});
 
 document.querySelector('textarea').addEventListener('blur', function (event) {
-	this.focus()
-})
+	this.focus();
+});
 document.querySelector('textarea').addEventListener('input', function (event) {
-	//запоминаем позицию курсора после последнего ввода
-	let cursorPosition = this.selectionStart
-	let strBeforeCursor = this.value.substring(0, cursorPosition)
-	let strAfterCursor = this.value.substring(cursorPosition)
+	// запоминаем позицию курсора после последнего ввода
+	const cursorPosition = this.selectionStart;
+	let strBeforeCursor = this.value.substring(0, cursorPosition);
+	const strAfterCursor = this.value.substring(cursorPosition);
 	if (event.inputType === 'insertText') {
-		strBeforeCursor = strBeforeCursor.substring(0, strBeforeCursor.length - 1) + lastLetter
-		this.value = strBeforeCursor + strAfterCursor
-		this.selectionStart = cursorPosition
-		this.selectionEnd = cursorPosition
+		strBeforeCursor = strBeforeCursor.substring(0, strBeforeCursor.length - 1) + lastLetter;
+		this.value = strBeforeCursor + strAfterCursor;
+		this.selectionStart = cursorPosition;
+		this.selectionEnd = cursorPosition;
 	}
-})
+});
 
-//обработка клика по клаве
-document.querySelector('.keyboard').addEventListener('mousedown', function (event) {
+// обработка клика по клаве
+document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
 	if (event.target.classList.contains('keyboard')) {
-		return
+		return;
 	}
-	//анимация
-	event.target.classList.add('key-active')
-	//определяем положение курсора в строке и разбиваем её по нему.
-	let cursorPosition = input.selectionStart;
-	let strBeforeCursor = input.value.substring(0, cursorPosition)
-	let strAfterCursor = input.value.substring(cursorPosition)
+	// анимация
+	event.target.classList.add('key-active');
+	// определяем положение курсора в строке и разбиваем её по нему.
+	const cursorPosition = input.selectionStart;
+	let strBeforeCursor = input.value.substring(0, cursorPosition);
+	const strAfterCursor = input.value.substring(cursorPosition);
 
 
-	//нажатие на шифт
+	// нажатие на шифт
 	if (event.target.classList.contains('CapsLock') || event.target.dataset.key == 'Shift') {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
-				localStorage.lang = 'RU_SHIFT_BTNS'
+				localStorage.lang = 'RU_SHIFT_BTNS';
 				break;
 			case 'RU_SHIFT_BTNS':
-				localStorage.lang = 'RU_LOW_BTNS'
+				localStorage.lang = 'RU_LOW_BTNS';
 				break;
 			case 'ENG_LOW_BTNS':
-				localStorage.lang = 'ENG_SHIFT_BTNS'
+				localStorage.lang = 'ENG_SHIFT_BTNS';
 				break;
 			case 'ENG_SHIFT_BTNS':
-				localStorage.lang = 'ENG_LOW_BTNS'
+				localStorage.lang = 'ENG_LOW_BTNS';
 				break;
 			default:
 				break;
 		}
-		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
 	}
-	//проверяем вводился ли текст
+	// проверяем вводился ли текст
 	if (event.target.classList.contains('key-letr') && !event.target.classList.contains('ShiftLeft') && !event.target.classList.contains('ShiftRight')) {
-		strBeforeCursor += event.target.dataset.key
-		input.value = strBeforeCursor + strAfterCursor
-		input.selectionStart = cursorPosition + 1
-		input.selectionEnd = cursorPosition + 1
+		strBeforeCursor += event.target.dataset.key;
+		input.value = strBeforeCursor + strAfterCursor;
+		input.selectionStart = cursorPosition + 1;
+		input.selectionEnd = cursorPosition + 1;
 	}
 
-	//нажатие на стрелку влево
+	// нажатие на стрелку влево
 	if (event.target.classList.contains('ArrowLeft')) {
 		if (input.selectionStart != 0) {
-			input.selectionStart -= 1
-			input.selectionEnd -= 1
+			input.selectionStart -= 1;
+			input.selectionEnd -= 1;
 		}
 	}
-	//нажатие на стрелку вправо
+	// нажатие на стрелку вправо
 	if (event.target.classList.contains('ArrowRight')) {
 		if (input.selectionStart != input.value.length) {
-			input.selectionStart += 1
-			input.selectionEnd += 0
+			input.selectionStart += 1;
+			input.selectionEnd += 0;
 		}
 	}
-	//стрелка вверх
+	// стрелка вверх
 	if (event.target.classList.contains('ArrowUp')) {
 		if (input.selectionStart - input.cols < 0) {
-			input.selectionStart = 0
-			input.selectionEnd = 0
+			input.selectionStart = 0;
+			input.selectionEnd = 0;
 		} else {
-			input.selectionStart -= input.cols
-			input.selectionEnd -= input.cols
+			input.selectionStart -= input.cols;
+			input.selectionEnd -= input.cols;
 		}
 	}
-	//стрелка вниз 
+	// стрелка вниз
 	if (event.target.classList.contains('ArrowDown')) {
 		if (input.selectionStart + input.cols > input.value.length) {
-			input.selectionStart = input.value.length
-			input.selectionEnd = input.value.length
+			input.selectionStart = input.value.length;
+			input.selectionEnd = input.value.length;
 		} else {
-			input.selectionStart += input.cols
-			input.selectionEnd += input.cols
+			input.selectionStart += input.cols;
+			input.selectionEnd += input.cols;
 		}
 	}
-	//энтер
+	// энтер
 	if (event.target.classList.contains('Enter')) {
-		strBeforeCursor += '\n'
-		input.value = strBeforeCursor + strAfterCursor
+		strBeforeCursor += '\n';
+		input.value = strBeforeCursor + strAfterCursor;
 	}
-	//таб
+	// таб
 	if (event.target.classList.contains('Tab')) {
-		strBeforeCursor += '    '
+		strBeforeCursor += '    ';
 		input.value = strBeforeCursor + strAfterCursor;
 		input.selectionStart = cursorPosition + 4;
-		input.selectionEnd = cursorPosition + 4
-
+		input.selectionEnd = cursorPosition + 4;
 	}
-	//бекспейс
+	// бекспейс
 	if (event.target.classList.contains('Backspace')) {
-		strBeforeCursor = input.value.substring(0, strBeforeCursor.length - 1)
-		input.value = strBeforeCursor + strAfterCursor
-		input.selectionStart = cursorPosition - 1
-		input.selectionEnd = cursorPosition - 1
-
+		strBeforeCursor = input.value.substring(0, strBeforeCursor.length - 1);
+		input.value = strBeforeCursor + strAfterCursor;
+		input.selectionStart = cursorPosition - 1;
+		input.selectionEnd = cursorPosition - 1;
 	}
+});
 
 
-})
-
-
-//обработка отпускания клика по клаве
-document.querySelector('.keyboard').addEventListener('mouseup', function (event) {
-	//отпускание шифта
+// обработка отпускания клика по клаве
+document.querySelector('.keyboard').addEventListener('mouseup', (event) => {
+	// отпускание шифта
 	if (event.target.dataset.key == 'Shift') {
 		switch (localStorage.lang) {
 			case 'RU_LOW_BTNS':
-				localStorage.lang = 'RU_SHIFT_BTNS'
+				localStorage.lang = 'RU_SHIFT_BTNS';
 				break;
 			case 'RU_SHIFT_BTNS':
-				localStorage.lang = 'RU_LOW_BTNS'
+				localStorage.lang = 'RU_LOW_BTNS';
 				break;
 			case 'ENG_LOW_BTNS':
-				localStorage.lang = 'ENG_SHIFT_BTNS'
+				localStorage.lang = 'ENG_SHIFT_BTNS';
 				break;
 			case 'ENG_SHIFT_BTNS':
-				localStorage.lang = 'ENG_LOW_BTNS'
+				localStorage.lang = 'ENG_LOW_BTNS';
 				break;
 			default:
 				break;
 		}
-		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE)
+		renderKeys(LANGS[localStorage.lang], LANGS.KEY_CODE);
 	}
 
-	//анимация
-	event.target.classList.remove('key-active')
+	// анимация
+	event.target.classList.remove('key-active');
+});
 
+//убираем активный класс с кнопок, если уводим мышку 
+document.querySelector('.keyboard').addEventListener('mouseout', (event) => {
+	event.target.classList.remove('key-active')
 })
