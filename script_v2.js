@@ -17,7 +17,7 @@ const LANGS = {
 };
 
 function init() {
-	document.body.innerHTML = '<div class="container"><textarea autofocus cols="100" rows="10"></textarea><div class="keyboard"></div></div>';
+	document.body.innerHTML = '<div class="container"><p>Виртуальная клавиатура</p><textarea autofocus cols="100" rows="10"></textarea><div class="keyboard"></div><p>Клавиатура создана в операционной системе Windows</p><p>Для переключения языка комбинация: левыe ctrl + alt</p></div>';
 	if (localStorage.getItem('lang') === null) {
 		localStorage.setItem('lang', 'RU_LOW_BTNS');
 	}
