@@ -31,6 +31,7 @@ textarea {
 }
 
 .key {
+  font-weight: 600;
   cursor: pointer;
   min-width: 45px;
   height: 45px;
