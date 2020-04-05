@@ -15,8 +15,7 @@
 }
 
 textarea {
-  width: 600px;
-  height: 200px;
+  resize: none;
 }
 
 .keyboard {
