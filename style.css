@@ -1,5 +1,27 @@
+.container {
+  margin: 0 auto;
+  margin-top: 50px;
+  max-width: 980px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+textarea {
+  width: 600px;
+  height: 200px;
+}
+
 .keyboard {
-  width: 900px;
+  margin-top: 30px;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11,14 +33,23 @@
 
 .key {
   cursor: pointer;
-  min-width: 50px;
-  height: 50px;
-  margin: 10px;
+  min-width: 45px;
+  height: 45px;
+  margin: 8px;
   padding: 3px;
   -webkit-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px white;
           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px white;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .key-active {
@@ -26,8 +57,23 @@
           box-shadow: -4px -4px 8px rgba(0, 0, 0, 0.3), 4px 4px 8px white;
 }
 
-textarea {
-  width: 600px;
-  height: 200px;
+.Tab, .CapsLock, .Backspace {
+  min-width: 87px;
+}
+
+.Enter {
+  min-width: 112px;
+}
+
+.ShiftLeft {
+  min-width: 154px;
+}
+
+.ControlLeft, .ControlRight {
+  min-width: 75px;
+}
+
+.Space {
+  min-width: 496px;
 }
 /*# sourceMappingURL=style.css.map */

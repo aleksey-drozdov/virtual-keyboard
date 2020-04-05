@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint script_v2.js",
+    "lint:fix": "eslint script_v2.js --fix"
   },
   "repository": {
     "type": "git",
